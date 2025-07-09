@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionnaire Dashboard - Équipements Audiovisuels</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1f2937',
+                        secondary: '#3b82f6',
+                        accent: '#10b981'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <!-- Header -->
+    <header class="bg-primary text-white shadow-lg">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <h1 class="text-2xl font-bold">Dashboard Gestionnaire</h1>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm">Bienvenue, Gestionnaire</span>
+                    <div class="w-8 h-8 bg-secondary rounded-full flex items-center justify-center">
+                        <span class="text-sm font-bold">G</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="bg-white shadow-sm border-b">
+        <div class="container mx-auto px-6">
+            <div class="flex space-x-8">
+                <button class="tab-button active py-4 px-2 border-b-2 border-secondary text-secondary font-medium" onclick="switchTab('dashboard')">
+                    Tableau de Bord
+                </button>
+                <button class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium" onclick="switchTab('catalogue')">
+                    Gestion du Catalogue
+                </button>
+                <button class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium" onclick="switchTab('commandes')">
+                    Validation des Commandes
+                </button>
+                <button class="tab-button py-4 px-2 border-b-2 border-transparent text-gray-500 hover:text-gray-700 font-medium" onclick="switchTab('locations')">
+                    Validation des Locations
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-6 py-8">
+        <!-- Dashboard Tab -->
+        <div id="dashboard-tab" class="tab-content">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Rapports et Statistiques</h2>
+                
+                <!-- KPIs -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-green-100 mr-4">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Total des Ventes</p>
+                                <p class="text-2xl font-bold text-gray-800">€45,680</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-blue-100 mr-4">
+                                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Total des Locations</p>
+                                <p class="text-2xl font-bold text-gray-800">€28,450</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-purple-100 mr-4">
+                                <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Nombre d'Équipements</p>
+                                <p class="text-2xl font-bold text-gray-800">147</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <div class="flex items-center">
+                            <div class="p-3 rounded-full bg-yellow-100 mr-4">
+                                <svg class="w-6 h-6 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="text-sm text-gray-600">Disponibilité</p>
+                                <p class="text-2xl font-bold text-gray-800">78%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-lg shadow">
+                        <h3 class="text-lg font-semibold mb-4">Revenus par Mois</h3>
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+
+        <!-- Catalogue Tab -->
+        <div id="catalogue-tab" class="tab-content hidden">
+            <div class="mb-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-bold text-gray-800">Gestion du Catalogue</h2>
+                    <button class="bg-secondary hover:bg-blue-600 text-white px-4 py-2 rounded-lg font-medium" onclick="openAddEquipmentModal()">
+                        Ajouter Équipement
+                    </button>
+                </div>
+
+                <!-- Filters -->
+                <div class="bg-white p-4 rounded-lg shadow mb-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Type d'équipement</label>
+                            <select class="w-full p-2 border border-gray-300 rounded-lg" onchange="filterEquipment()">
+                                <option value="">Tous les types</option>
+                                <option value="Camera">Caméra</option>
+                                <option value="Audio">Audio</option>
+                                <option value="Eclairage">Éclairage</option>
+                                <option value="Accessoire">Accessoire</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Disponibilité</label>
+                            <select class="w-full p-2 border border-gray-300 rounded-lg" onchange="filterEquipment()">
+                                <option value="">Toutes</option>
+                                <option value="Disponible">Disponible</option>
+                                <option value="Loué">Loué</option>
+                                <option value="Maintenance">Maintenance</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">État</label>
+                            <select class="w-full p-2 border border-gray-300 rounded-lg" onchange="filterEquipment()">
+                                <option value="">Tous</option>
+                                <option value="Neuf">Neuf</option>
+                                <option value="Bon">Bon</option>
+                                <option value="Moyen">Moyen</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Equipment Table -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">État</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Disponibilité</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Prix/Jour</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="equipmentTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Equipment rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Commandes Tab -->
+        <div id="commandes-tab" class="tab-content hidden">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Validation des Commandes</h2>
+                
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Équipements</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="commandesTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Commandes rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Locations Tab -->
+        <div id="locations-tab" class="tab-content hidden">
+            <div class="mb-8">
+                <h2 class="text-3xl font-bold text-gray-800 mb-6">Validation des Locations</h2>
+                
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Client</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Matériel</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Début</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date Fin</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Montant</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Statut</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="locationsTableBody" class="bg-white divide-y divide-gray-200">
+                                <!-- Locations rows will be populated by JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Add Equipment Modal -->
+    <div id="addEquipmentModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full hidden z-50">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3">
+                <h3 class="text-lg font-bold text-gray-900 mb-4">Ajouter un Équipement</h3>
+                <form id="addEquipmentForm">
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nom</label>
+                        <input type="text" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+                        <select class="w-full p-2 border border-gray-300 rounded-lg" required>
+                            <option value="">Sélectionner un type</option>
+                            <option value="Camera">Caméra</option>
+                            <option value="Audio">Audio</option>
+                            <option value="Eclairage">Éclairage</option>
+                            <option value="Accessoire">Accessoire</option>
+                        </select>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Prix/Jour (€)</label>
+                        <input type="number" class="w-full p-2 border border-gray-300 rounded-lg" required>
+                    </div>
+                    <div class="flex justify-end space-x-4">
+                        <button type="button" class="px-4 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400" onclick="closeAddEquipmentModal()">
+                            Annuler
+                        </button>
+                        <button type="submit" class="px-4 py-2 bg-secondary text-white rounded-lg hover:bg-blue-600">
+                            Ajouter
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data - In real application, this would come from an API
+        const equipmentData = [
+            { id: 1, nom: 'Sony FX6', type: 'Camera', etat: 'Neuf', disponibilite: 'Disponible', prix: 180 },
+            { id: 2, nom: 'Canon EOS R5', type: 'Camera', etat: 'Bon', disponibilite: 'Loué', prix: 120 },
+            { id: 3, nom: 'Rode NTG4+', type: 'Audio', etat: 'Neuf', disponibilite: 'Disponible', prix: 35 },
+            { id: 4, nom: 'Aputure 300D', type: 'Eclairage', etat: 'Bon', disponibilite: 'Maintenance', prix: 85 },
+            { id: 5, nom: 'Manfrotto 502', type: 'Accessoire', etat: 'Moyen', disponibilite: 'Disponible', prix: 45 }
+        ];
+
+        const commandesData = [
+            { id: 1, client: 'Jean Dupont', date: '2024-07-05', equipements: 'Sony FX6, Rode NTG4+', montant: 645, statut: 'En attente' },
+            { id: 2, client: 'Marie Martin', date: '2024-07-06', equipements: 'Canon EOS R5', montant: 360, statut: 'En attente' },
+            { id: 3, client: 'Pierre Durand', date: '2024-07-07', equipements: 'Aputure 300D, Manfrotto 502', montant: 390, statut: 'En attente' }
+        ];
+
+        const locationsData = [
+            { id: 1, client: 'Studio Créatif', materiel: 'Sony FX6, Rode NTG4+', dateDebut: '2024-07-10', dateFin: '2024-07-12', montant: 430, statut: 'En attente' },
+            { id: 2, client: 'Prod Film', materiel: 'Canon EOS R5, Manfrotto 502', dateDebut: '2024-07-08', dateFin: '2024-07-10', montant: 330, statut: 'En attente' },
+            { id: 3, client: 'Event Company', materiel: 'Aputure 300D', dateDebut: '2024-07-15', dateFin: '2024-07-17', montant: 255, statut: 'En attente' }
+        ];
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.add('hidden'));
+            
+            // Show selected tab content
+            document.getElementById(tabName + '-tab').classList.remove('hidden');
+            
+            // Update tab button styles
+            const tabButtons = document.querySelectorAll('.tab-button');
+            tabButtons.forEach(button => {
+                button.classList.remove('active', 'border-secondary', 'text-secondary');
+                button.classList.add('border-transparent', 'text-gray-500');
+            });
+            
+            // Highlight active tab
+            event.target.classList.add('active', 'border-secondary', 'text-secondary');
+            event.target.classList.remove('border-transparent', 'text-gray-500');
+        }
+
+        // Equipment table functions
+        function populateEquipmentTable(data = equipmentData) {
+            const tbody = document.getElementById('equipmentTableBody');
+            tbody.innerHTML = '';
+            
+            data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.nom}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.type}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getEtatColor(item.etat)}">${item.etat}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${getDisponibiliteColor(item.disponibilite)}">${item.disponibilite}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">€${item.prix}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="text-blue-600 hover:text-blue-900 mr-3" onclick="editEquipment(${item.id})">Modifier</button>
+                        <button class="text-red-600 hover:text-red-900" onclick="deleteEquipment(${item.id})">Supprimer</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function getEtatColor(etat) {
+            switch(etat) {
+                case 'Neuf': return 'bg-green-100 text-green-800';
+                case 'Bon': return 'bg-yellow-100 text-yellow-800';
+                case 'Moyen': return 'bg-orange-100 text-orange-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function getDisponibiliteColor(disponibilite) {
+            switch(disponibilite) {
+                case 'Disponible': return 'bg-green-100 text-green-800';
+                case 'Loué': return 'bg-red-100 text-red-800';
+                case 'Maintenance': return 'bg-yellow-100 text-yellow-800';
+                default: return 'bg-gray-100 text-gray-800';
+            }
+        }
+
+        function filterEquipment() {
+            // Filter functionality would be implemented here
+            // For now, just repopulate with original data
+            populateEquipmentTable();
+        }
+
+        // Commandes table functions
+        function populateCommandesTable() {
+            const tbody = document.getElementById('commandesTableBody');
+            tbody.innerHTML = '';
+            
+            commandesData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.client}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.date}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.equipements}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">€${item.montant}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">${item.statut}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="text-green-600 hover:text-green-900 mr-3" onclick="validateCommande(${item.id}, 'valider')">Valider</button>
+                        <button class="text-red-600 hover:text-red-900" onclick="validateCommande(${item.id}, 'refuser')">Refuser</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Locations table functions
+        function populateLocationsTable() {
+            const tbody = document.getElementById('locationsTableBody');
+            tbody.innerHTML = '';
+            
+            locationsData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">${item.client}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.materiel}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.dateDebut}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${item.dateFin}</td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">€${item.montant}</td>
+                    <td class="px-6 py-4 whitespace-nowrap">
+                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">${item.statut}</span>
+                    </td>
+                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                        <button class="text-green-600 hover:text-green-900 mr-3" onclick="validateLocation(${item.id}, 'valider')">Valider</button>
+                        <button class="text-red-600 hover:text-red-900" onclick="validateLocation(${item.id}, 'refuser')">Refuser</button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Modal functions
+        function openAddEquipmentModal() {
+            document.getElementById('addEquipmentModal').classList.remove('hidden');
+        }
+
+        function closeAddEquipmentModal() {
+            document.getElementById('addEquipmentModal').classList.add('hidden');
+        }
+
+        // Action functions (would connect to backend in real application)
+        function editEquipment(id) {
+            alert(`Modifier l'équipement ID: ${id}`);
+            // Implementation would open edit modal
+        }
+
+        function deleteEquipment(id) {
+            if (confirm('Êtes-vous sûr de vouloir supprimer cet équipement?')) {
+                alert(`Équipement ID: ${id} supprimé`);
+                // Implementation would remove from data and refresh table
+            }
+        }
+
+        function validateCommande(id, action) {
+            alert(`Commande ID: ${id} ${action === 'valider' ? 'validée' : 'refusée'}`);
+            // Implementation would update status and refresh table
+        }
+
+        function validateLocation(id, action) {
+            alert(`Location ID: ${id} ${action === 'valider' ? 'validée' : 'refusée'}`);
+            // Implementation would update status and refresh table
+        }
+
+        // Chart initialization
+        function initCharts() {
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin'],
+                    datasets: [{
+                        label: 'Ventes',
+                        data: [8500, 9200, 7800, 10200, 8900, 9600],
+                        backgroundColor: 'rgba(59, 130, 246, 0.8)'
+                    }, {
+                        label: 'Locations',
+                        data: [4200, 5100, 3800, 6200, 4900, 5400],
+                        backgroundColor: 'rgba(16, 185, 129, 0.8)'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            // Equipment Chart
+            const equipmentCtx = document.getElementById('equipmentChart').getContext('2d');
+            new Chart(equipmentCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Caméras', 'Audio', 'Éclairage', 'Accessoires'],
+                    datasets: [{
+                        data: [35, 25, 20, 20],
+                        backgroundColor: [
+                            'rgba(59, 130, 246, 0.8)',
+                            'rgba(16, 185, 129, 0.8)',
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(139, 92, 246, 0.8)'
+                        ]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        // Initialize everything when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            populateEquipmentTable();
+            populateCommandesTable();
+            populateLocationsTable();
+            initCharts();
+        });
+
+        // Form submission handler
+        document.getElementById('addEquipmentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Équipement ajouté avec succès!');
+            closeAddEquipmentModal();
+            // In real application, would send data to backend and refresh table
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('addEquipmentModal');
+            if (event.target === modal) {
+                closeAddEquipmentModal();
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - AV Equipment Rental & Sales</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <!-- Page Header -->
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">My Account</h1>
+            <p class="text-gray-600">Manage your rentals, purchases, and account information</p>
+        </header>
+
+        <!-- Client Profile Section -->
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <div class="flex justify-between items-start mb-4">
+                <h2 class="text-xl font-semibold text-gray-800">Profile Information</h2>
+                <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 text-sm">
+                    Edit Profile
+                </button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Client Info -->
+                <div class="space-y-2">
+                    <div>
+                        <p class="text-sm text-gray-500">Full Name</p>
+                        <p class="font-medium">John D. Smith</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Email</p>
+                        <p class="font-medium">john.smith@example.com</p>
+                    </div>
+                </div>
+                
+                <div class="space-y-2">
+                    <div>
+                        <p class="text-sm text-gray-500">Phone</p>
+                        <p class="font-medium">+1 (555) 123-4567</p>
+                    </div>
+                    <div>
+                        <p class="text-sm text-gray-500">Member Since</p>
+                        <p class="font-medium">January 15, 2022</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- My Orders Section -->
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">My Orders</h2>
+            
+            <!-- Orders Table - Replace with dynamic data -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Items</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Total</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- Order 1 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2023-4567</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 15, 2023</td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                <ul class="list-disc pl-5">
+                                    <li>Sony PXW-FS7 II (1)</li>
+                                    <li>Canon EF 24-70mm (1)</li>
+                                    <li>Manfrotto Tripod (2)</li>
+                                </ul>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$4,250.00</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
+                            </td>
+                        </tr>
+                        
+                        <!-- Order 2 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#ORD-2023-3281</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jan 28, 2023</td>
+                            <td class="px-6 py-4 text-sm text-gray-500">
+                                <ul class="list-disc pl-5">
+                                    <li>Blackmagic URSA Mini Pro (1)</li>
+                                    <li>Zeiss CP.3 Lens Set (3)</li>
+                                </ul>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$8,750.00</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">Paid</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Empty State (commented out) -->
+            <!-- <div class="text-center py-12">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No orders yet</h3>
+                <p class="mt-1 text-sm text-gray-500">Your purchase history will appear here.</p>
+            </div> -->
+        </section>
+
+        <!-- My Rentals Section -->
+        <section class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">My Rentals</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Rental Card 1 -->
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-medium text-gray-900">#RENT-2023-1245</h3>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-blue-100 text-blue-800">Active</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">ARRI ALEXA Mini LF Camera Package</p>
+                    <div class="mt-3 grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                            <p class="text-gray-500">Start Date</p>
+                            <p>Jun 10, 2023</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">End Date</p>
+                            <p>Jun 17, 2023</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="font-medium">$1,850.00</span>
+                        <button class="text-sm text-blue-600 hover:text-blue-800">View Details</button>
+                    </div>
+                </div>
+                
+                <!-- Rental Card 2 -->
+                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div class="flex justify-between items-start">
+                        <h3 class="font-medium text-gray-900">#RENT-2023-0987</h3>
+                        <span class="px-2 py-1 text-xs font-semibold rounded-full bg-gray-100 text-gray-800">Completed</span>
+                    </div>
+                    <p class="text-sm text-gray-500 mt-1">RED KOMODO 6K Cinema Camera Kit</p>
+                    <div class="mt-3 grid grid-cols-2 gap-2 text-sm">
+                        <div>
+                            <p class="text-gray-500">Start Date</p>
+                            <p>May 5, 2023</p>
+                        </div>
+                        <div>
+                            <p class="text-gray-500">End Date</p>
+                            <p>May 12, 2023</p>
+                        </div>
+                    </div>
+                    <div class="mt-3 flex justify-between items-center">
+                        <span class="font-medium">$1,250.00</span>
+                        <button class="text-sm text-blue-600 hover:text-blue-800">View Details</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Empty State (commented out) -->
+            <!-- <div class="text-center py-12">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No rentals yet</h3>
+                <p class="mt-1 text-sm text-gray-500">Your rental history will appear here.</p>
+            </div> -->
+        </section>
+
+        <!-- My Invoices Section -->
+        <section class="bg-white p-6 rounded-lg shadow-md">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4">My Invoices</h2>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Invoice #</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <!-- Invoice 1 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#INV-2023-5678</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Jun 10, 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$1,850.00</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Rental</td>
+                        </tr>
+                        
+                        <!-- Invoice 2 -->
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">#INV-2023-4567</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Mar 15, 2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">$4,250.00</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Purchase</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Empty State (commented out) -->
+            <!-- <div class="text-center py-12">
+                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <h3 class="mt-2 text-sm font-medium text-gray-900">No invoices yet</h3>
+                <p class="mt-1 text-sm text-gray-500">Your invoices will appear here.</p>
+            </div> 
+        </section>
+    </div>
+</body>
+</html>

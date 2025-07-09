@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catalogue de matériel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50">
+    <div class="container mx-auto px-4 py-8">
+        <header class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-800">Catalogue de matériel</h1>
+            <p class="text-gray-600">Trouvez le matériel dont vous avez besoin</p>
+        </header>
+
+        <!-- Filter Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md mb-8">
+            <h2 class="text-xl font-semibold mb-4 text-gray-700">Filtrer les résultats</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Category Filter -->
+                <div>
+                    <label for="category" class="block text-sm font-medium text-gray-700 mb-1">Catégorie</label>
+                    <select id="category" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="" hidden>Toutes les catégories</option>
+                        <option value="informatique">Informatique</option>
+                    </select>
+                </div>
+                
+                <!-- Status Filter -->
+                <div>
+                    <label for="status" class="block text-sm font-medium text-gray-700 mb-1">Statut</label>
+                    <select id="status" class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <option value="" hidden>Tous les statuts</option>
+                        <option value="disponible">Disponible</option>
+                        <option value="reserve">Réservé</option>
+                        <option value="en-maintenance">En maintenance</option>
+                    </select>
+                </div>
+
+                  <div>
+                    <label for="search" class="block text-sm font-medium text-gray-700 mb-1">Recherche</label>
+                    <div class="relative">
+                        <input type="text" id="search" placeholder="Nom, référence..." class="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                        <button class="absolute right-2 top-2 text-gray-500 hover:text-gray-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+            <!-- Material Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Material Card 1 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="bg-gray-100 h-48 flex items-center justify-center">
+                        <span class="text-gray-400">Image non disponible</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-lg font-semibold text-gray-800">Ordinateur portable HP EliteBook</h3>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponible</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-1">Réf: HP-ELB-2022</p>
+                        <p class="text-gray-700 mt-2">Ordinateur portable professionnel avec processeur i7 et 16Go RAM.</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Catégorie: Informatique</span>
+                            <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir détails</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Material Card 2 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="bg-gray-100 h-48 flex items-center justify-center">
+                        <span class="text-gray-400">Image non disponible</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-lg font-semibold text-gray-800">Vidéo projecteur Epson</h3>
+                            <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">Réservé</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-1">Réf: EPS-VP-4500</p>
+                        <p class="text-gray-700 mt-2">Projecteur HD 4000 lumens avec entrées HDMI et VGA.</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Catégorie: Audiovisuel</span>
+                            <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir détails</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Material Card 3 -->
+                <div class="border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
+                    <div class="bg-gray-100 h-48 flex items-center justify-center">
+                        <span class="text-gray-400">Image non disponible</span>
+                    </div>
+                    <div class="p-4">
+                        <div class="flex justify-between items-start">
+                            <h3 class="text-lg font-semibold text-gray-800">Bureau ajustable</h3>
+                            <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">Disponible</span>
+                        </div>
+                        <p class="text-gray-600 text-sm mt-1">Réf: BUR-AJ-120</p>
+                        <p class="text-gray-700 mt-2">Bureau ergonomique avec hauteur ajustable électriquement.</p>
+                        <div class="mt-4 flex justify-between items-center">
+                            <span class="text-sm text-gray-500">Catégorie: Mobilier</span>
+                            <button class="text-blue-600 hover:text-blue-800 text-sm font-medium">Voir détails</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
