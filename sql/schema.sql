@@ -5,11 +5,11 @@ CREATE TABLE roles (
 );
 
 -- inserte roles 
-INSERT INTO roles (nom) VALUES
-('Gestionnaire'),
-('Commercial'),
-('Technicien'),
-('Client');
+INSERT INTO roles (nom) VALUES 
+('admin'), 
+('client'), 
+('technicien'), 
+('commercial');
 
 -- create users table
 CREATE TABLE users (
