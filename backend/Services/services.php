@@ -7,3 +7,7 @@ use Controllers\AuthController;
 $db = Database::getConnection();
 $utilisateurRepository  = new UtilisateurRepository ($db);
 $authController = new AuthController ($utilisateurRepository);
+
+return [
+    "auth" => $authController,
+];

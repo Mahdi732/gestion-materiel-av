@@ -53,7 +53,7 @@ class AuthController {
         header('Content-Type: application/json');
         $data = json_decode(file_get_contents("php://input"), true);
 
-        if (!isset($data['email'], $data['mot_de_passe'])) {
+        if (!isset($data['email'], $data['password'])) {
             http_response_code(400);
             echo json_encode(['error' => 'Champs manquants']);
             return;
@@ -61,7 +61,7 @@ class AuthController {
 
         $user = $this->repo->login($data['email']);
 
-        if (!$user || !password_verify($data['mot_de_passe'], $user->getPassword())) {
+        if (!$user || !password_verify($data['password'], $user->getPassword())) {
             http_response_code(401);
             echo json_encode(['error' => 'Email ou mot de passe invalide']);
             return;
