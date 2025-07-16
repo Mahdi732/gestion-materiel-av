@@ -1,6 +1,6 @@
 <?php
 
-use Core;
+namespace Core;
 
 class Router {
     private static array $routes = [];
@@ -24,22 +24,20 @@ class Router {
             return;
         }
 
-        [$ControllerName, $methodName] = $routes[$uri];
+        [$controller, $methodName] = $routes[$uri];
 
-        if (!isset($ControllerName)) {
-            http_response_code(404);
-            echo json_encode(['error' => 'Constroller not found']);
+        if (!is_object($controller)) {
+            http_response_code(500);
+            echo json_encode(['error' => 'Expected object, got something else']);
             return;
         }
 
-        $controller = new $ControllerName ();
-
         if (!method_exists($controller, $methodName)) {
             http_response_code(404);
-            echo json_encode(['error' => 'Method not found !']);
+            echo json_encode(['error' => 'Method not found']);
             return;
         }
 
         $controller->$methodName();
-    }
+        }
 }

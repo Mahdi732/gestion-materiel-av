@@ -10,14 +10,13 @@ class Utilisateur {
     private ?int $roleId;
     private string $roleNom;
 
-    public function __construct(array $data) 
-    {
-        $this->id = $data['id'];
-        $this->nom = $data['nom'];
-        $this->email = $data['email'];
-        $this->password = $data['password'];
-        $this->roleId = $data['role_id'];
-        $this->roleNom = $data['role_nom'];
+    public function __construct(array $data = []) {
+        $this->id = $data['id'] ?? null;
+        $this->nom = $data['nom'] ?? '';
+        $this->email = $data['email'] ?? '';
+        $this->password = $data['password'] ?? '';
+        $this->roleId = $data['role_id'] ?? 0;
+        $this->roleNom = $data['role_nom'] ?? null;
     }
 
     public function getId () : ?int {
