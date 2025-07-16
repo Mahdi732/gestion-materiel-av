@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inscription - Catalogue de matériel</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center">
@@ -13,11 +14,11 @@
             <p class="mt-2 text-sm text-gray-600">Créez un nouveau compte</p>
         </div>
 
-        <form class="mt-8 space-y-6">
+        <form id="registerForm" class="mt-8 space-y-6">
             <div class="rounded-md shadow-sm space-y-4">
                 <div>
-                    <label for="full-name" class="sr-only">Nom complet</label>
-                    <input id="full-name" name="full-name" type="text" autocomplete="name" required
+                    <label for="nom" class="sr-only">Nom complet</label>
+                    <input id="nom" name="full-name" type="text" autocomplete="name" required
                         class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm"
                         placeholder="Nom complet">
                 </div>
@@ -49,5 +50,6 @@
             </a>
         </div>
     </div>
+    <script src="js/register.js"></script>
 </body>
 </html>
