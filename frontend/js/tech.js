@@ -4,7 +4,7 @@ if (!isLogin) {
     window.location.href = 'login.html'
 }
 
-if (isLogin.role_id != 2) {
+if (isLogin.role_id != 3) {
     switch (isLoged.role_id) {
             case 1:
         window.location.href = "admin-dashboard.html";
@@ -20,6 +20,3 @@ if (isLogin.role_id != 2) {
         break;
     }
 }
-
-document.getElementById('userName').textContent = isLogin.nom
-document.getElementById('userEmail').textContent = isLogin.email

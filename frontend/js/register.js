@@ -15,9 +15,6 @@ if (isLoged) {
             case 4:
         window.location.href = "dashboard.html";
         break;
-            default:
-        alert("Rôle inconnu !");
-        break;
     }
 
 }
