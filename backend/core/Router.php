@@ -20,7 +20,8 @@ class Router {
 
         if (!isset($routes[$uri])) {
             http_response_code(404);
-            echo json_encode(['error' => 'route not found']);
+            echo json_encode(['error' => 'route not found', 
+            "route" => $uri]);
             return;
         }
 

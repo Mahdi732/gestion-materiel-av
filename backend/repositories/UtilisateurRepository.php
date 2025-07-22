@@ -23,11 +23,14 @@ class UtilisateurRepository {
             'password' => $user->getPassword(),
             'role' => $user->getRoleId(),
         ]);
+        if ($result) {
+            $user->setId($this->db->lastInsertId());
+        }
         return $result;
     }
 
     public function login (string $email) : ?Utilisateur {
-        $sql = 'SELECT u.*, role.nom as role_nom
+        $sql = 'SELECT u.*, r.nom as role_nom
                 FROM users u
                 JOIN roles r ON u.role_id = r.id
                 where u.email = :email';

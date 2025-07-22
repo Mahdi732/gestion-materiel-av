@@ -8,7 +8,6 @@ class Utilisateur {
     private string $email;
     private string $password;
     private ?int $roleId;
-    private string $roleNom;
 
     public function __construct(array $data = []) {
         $this->id = $data['id'] ?? null;
@@ -16,7 +15,10 @@ class Utilisateur {
         $this->email = $data['email'] ?? '';
         $this->password = $data['password'] ?? '';
         $this->roleId = $data['role_id'] ?? 0;
-        $this->roleNom = $data['role_nom'] ?? null;
+    }
+
+    public function setId ($id) : void {
+        $this->id = $id;
     }
 
     public function getId () : ?int {
@@ -53,13 +55,5 @@ class Utilisateur {
 
     public function getRoleId () : ?int {
         return $this->roleId;
-    }
-
-    public function setRoleNom ($roleNom) : void {
-        $this->roleNom = $roleNom;
-    }
-
-    public function getRoleNom () : string {
-        return $this->roleNom;
     }
 }
