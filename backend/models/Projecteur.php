@@ -2,7 +2,9 @@
 
 namespace Models;
 
-class Projecteur  extends MaterielBase
+class Projecteur extends MaterielBase
 {
-
+    public function type(): string {
+        return 'Projecteur';
+    }
 }

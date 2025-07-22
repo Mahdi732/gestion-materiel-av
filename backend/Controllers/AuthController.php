@@ -2,115 +2,78 @@
 
 namespace Controllers;
 
-use Services\GestionCatalogueService;
-use Models\MaterielBase;
-use Models\Camera;
-use Models\Projecteur;
-use Models\Microphone;
+use Repositories\UtilisateurRepository;
+use Models\Utilisateur;
 
-class MaterielController
-{
-    private GestionCatalogueService $catalogueService;
+class AuthController {
+    private UtilisateurRepository $repo;
 
-    public function __construct(GestionCatalogueService $service)
-    {
-        $this->catalogueService = $service;
+    public function __construct (UtilisateurRepository $repo) {
+        $this->repo = $repo;
     }
 
-    public function getAll(): void
-    {
-        header('Content-Type: application/json');
-        $materiels = $this->catalogueService->getAllMateriels();
-        echo json_encode($materiels);
-    }
+    public function signUp () : void {
+         header('Access-Control-Allow-Origin: *');
+         header('Content-Type: application/json');
+        $data = json_decode(file_get_contents("php://input"), true);
 
-    public function getById(int $id): void
-    {
-        header('Content-Type: application/json');
-        $materiel = $this->catalogueService->getMaterielById($id);
-
-        if (!$materiel) {
-            http_response_code(404);
-            echo json_encode(['error' => 'Matériel non trouvé']);
+        if (!isset($data["nom"], $data["email"], $data["password"], $data["role_id"])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Champs manquants']);
             return;
         }
 
-        echo json_encode($materiel);
+        if ($this->repo->findEmail($data['email'])) {
+            http_response_code(409);
+            echo json_encode(['error' => 'Email déjà utilisé']);
+            return;
+        }
+
+        $user = new Utilisateur();
+        $user->setNom($data['nom']);
+        $user->setEmail($data['email']);
+        $user->setPassword(password_hash($data['password'], PASSWORD_DEFAULT));
+        $user->setRoleId((int) $data['role_id']);
+
+        $success = $this->repo->register($user);
+
+        if ($success) {
+        echo json_encode([
+            'id' => $user->getId(),
+            'nom' => $user->getNom(),
+            'email' => $user->getEmail(),
+            'role_id' => $user->getRoleId()
+        ]);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Erreur lors de l\'enregistrement']);
+        }
     }
 
-    public function add(): void
+    public function login(): void
     {
         header('Content-Type: application/json');
         $data = json_decode(file_get_contents("php://input"), true);
 
-        $materiel = $this->createMaterielFromData($data);
-
-        $success = $this->catalogueService->saveMateriel($materiel);
-
-        if ($success) {
-            echo json_encode(['message' => 'Matériel ajouté avec succès']);
-        } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Échec de l\'ajout']);
-        }
-    }
-
-    public function update(int $id): void
-    {
-        header('Content-Type: application/json');
-        $data = json_decode(file_get_contents("php://input"), true);
-
-        $existing = $this->catalogueService->getMaterielById($id);
-        if (!$existing) {
-            http_response_code(404);
-            echo json_encode(['error' => 'Matériel non trouvé']);
+        if (!isset($data['email'], $data['password'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Champs manquants']);
             return;
         }
 
-        $materiel = $this->createMaterielFromData($data);
-        $materiel->setId($id);
+        $user = $this->repo->login($data['email']);
 
-        $success = $this->catalogueService->modifierMateriel($materiel);
-
-        if ($success) {
-            echo json_encode(['message' => 'Matériel mis à jour']);
-        } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Échec de la mise à jour']);
-        }
-    }
-
-    public function delete(int $id): void
-    {
-        header('Content-Type: application/json');
-
-        $success = $this->catalogueService->supprimerMateriel($id);
-
-        if ($success) {
-            echo json_encode(['message' => 'Matériel supprimé']);
-        } else {
-            http_response_code(500);
-            echo json_encode(['error' => 'Échec de la suppression']);
-        }
-    }
-
-    private function createMaterielFromData(array $data): MaterielBase
-    {
-        switch ($data['type_id']) {
-            case 1: $materiel = new Camera(); break;
-            case 2: $materiel = new Projecteur(); break;
-            case 3: $materiel = new Microphone(); break;
-            default: $materiel = new MaterielBase(); break;
+        if (!$user || !password_verify($data['password'], $user->getPassword())) {
+            http_response_code(401);
+            echo json_encode(['error' => 'Email ou mot de passe invalide']);
+            return;
         }
 
-        $materiel->setNom($data['nom'] ?? '');
-        $materiel->setMarque($data['marque'] ?? '');
-        $materiel->setModele($data['modele'] ?? '');
-        $materiel->setTypeId($data['type_id'] ?? null);
-        $materiel->setEtatId($data['etat_id'] ?? null);
-        $materiel->setDisponible($data['disponible'] ?? true);
-        $materiel->setCaracteristiques($data['caracteristiques'] ?? '');
-
-        return $materiel;
+        echo json_encode([
+            'id' => $user->getId(),
+            'nom' => $user->getNom(),
+            'email' => $user->getEmail(),
+            'role_id' => $user->getRoleId()
+        ]);
     }
 }
