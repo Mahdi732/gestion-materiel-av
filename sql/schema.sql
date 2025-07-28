@@ -40,3 +40,23 @@ CREATE TABLE materiels (
     FOREIGN KEY (type_id) REFERENCES types_materiel(id),
     FOREIGN KEY (etat_id) REFERENCES etat_materiel(id)
 );
+
+-- Table commandes
+CREATE TABLE commandes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    details TEXT NOT NULL,
+    paiement VARCHAR(50) NOT NULL,
+    statut VARCHAR(50) NOT NULL DEFAULT 'en_attente',
+    date_creation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (client_id) REFERENCES users(id)
+);
+
+-- Table factures
+CREATE TABLE factures (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    commande_id INT NOT NULL,
+    montant DECIMAL(10,2) NOT NULL,
+    date_facturation DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (commande_id) REFERENCES commandes(id)
+);

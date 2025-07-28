@@ -21,7 +21,7 @@ class MaterielController
     public function getAll(): void
     {
         header('Access-Control-Allow-Origin: *');
-         header('Content-Type: application/json');
+        header('Content-Type: application/json');
         $materiels = $this->catalogueService->getAllMateriels();
         echo json_encode($materiels);
     }
@@ -85,12 +85,21 @@ class MaterielController
         }
     }
 
-    public function delete(int $id): void
+    public function delete(): void
     {
         header('Access-Control-Allow-Origin: *');
-         header('Content-Type: application/json');
+        header('Content-Type: application/json');
 
-        $success = $this->catalogueService->supprimerMateriel($id);
+        $data = json_decode(file_get_contents("php://input"), true);
+        $id = $data['id'];
+
+        if (!$id) {
+            http_response_code(400);
+            echo json_encode(['error' => 'ID manquant']);
+            return;
+        }
+
+        $success = $this->catalogueService->supprimerMateriel((int)$id);
 
         if ($success) {
             echo json_encode(['message' => 'Matériel supprimé']);

@@ -53,7 +53,17 @@ class MaterielRepository implements IMaterielRepository
 
         $materiels = [];
         foreach ($results as $row) {
-            $materiels[] = $this->createMaterielFromRow($row);
+            $materiel = $this->createMaterielFromRow($row);
+            $materiels[] = [
+                'id' => $materiel->getId(),
+                'nom' => $materiel->getNom(),
+                'marque' => $materiel->getMarque(),
+                'modele' => $materiel->getModele(),
+                'type_id' => $materiel->getTypeId(),
+                'etat_id' => $materiel->getEtatId(),
+                'disponible' => $materiel->isDisponible(),
+                'caracteristiques' => $materiel->getCaracteristiques()
+            ];
         }
 
         return $materiels;

@@ -6,7 +6,7 @@ use Interfaces\IMateriel;
 
 abstract class MaterielBase implements IMateriel
 {
-    protected ?int $id;
+    protected ?int $id = null;
     protected string $nom;
     protected string $marque;
     protected string $modele;
