@@ -48,7 +48,7 @@ class MaterielRepository implements IMaterielRepository
 
     public function getAll(): array
     {
-        $stmt = $this->db->query("SELECT * FROM materiels");
+        $stmt = $this->db->query("SELECT * FROM materiels WHERE disponible = 1");
         $results = $stmt->fetchAll();
 
         $materiels = [];
@@ -68,6 +68,16 @@ class MaterielRepository implements IMaterielRepository
 
         return $materiels;
     }
+
+    public function changerDisponibilite(int $id, bool $disponible): bool
+    {
+        $stmt = $this->db->prepare("UPDATE materiels SET disponible = :disponible WHERE id = :id");
+        return $stmt->execute([
+            'disponible' => $disponible,
+            'id' => $id
+        ]);
+    }
+
 
     public function findById(int $id): ?MaterielBase
     {

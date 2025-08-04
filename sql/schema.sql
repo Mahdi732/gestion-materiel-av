@@ -60,3 +60,39 @@ CREATE TABLE factures (
     date_facturation DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (commande_id) REFERENCES commandes(id)
 );
+
+
+CREATE TABLE locations (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    client_id INT NOT NULL,
+    materiel_id INT NOT NULL,
+    date_debut DATETIME NOT NULL,
+    date_fin DATETIME NOT NULL,
+    statut ENUM('en_attente', 'active', 'terminee') DEFAULT 'en_attente',
+    FOREIGN KEY (client_id) REFERENCES users(id),
+    FOREIGN KEY (materiel_id) REFERENCES materiels(id)
+);
+
+
+CREATE TABLE contrats_location (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    location_id INT NOT NULL,
+    remise FLOAT DEFAULT 0,
+    tarif_total FLOAT NOT NULL,
+    FOREIGN KEY (location_id) REFERENCES locations(id)
+);
+
+
+CREATE TABLE retours (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    location_id INT NOT NULL,
+    date_retour DATETIME NOT NULL,
+    etat_retour VARCHAR(255),
+    FOREIGN KEY (location_id) REFERENCES locations(id)
+);
+
+
+
+
+
+

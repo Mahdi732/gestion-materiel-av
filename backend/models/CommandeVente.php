@@ -1,54 +1,54 @@
 <?php
-
 namespace Models;
 
 use Interfaces\ICommande;
 
-class CommandeVente implements ICommande
-{
-    private $client;
-    private $produits;
-    private $paiement;
-    private $statut;
-    private $dateCommande;
+class CommandeVente implements ICommande {
+    private ?int $id = null;
+    private array $details;
+    private int $clientId;
+    private string $paiement;
+    private string $statut;   
 
-    public function __construct($client, array $produits, $paiement)
-    {
-        $this->client = $client;
-        $this->produits = $produits;
+    public function __construct(array $details, int $clientId, string $paiement) {
+        $this->details = $details;
+        $this->clientId = $clientId;
         $this->paiement = $paiement;
-        $this->statut = 'en_attente';
-        $this->dateCommande = date('Y-m-d H:i:s');
+        $this->statut = 'en attente';
     }
 
-    public function getDetails(): array
-    {
-        return $this->produits;
+    public function getId(): int {
+        return $this->id;
+    }
+    public function setId(int $id): void {
+        $this->id = $id;
     }
 
-    public function getClient(): object
-    {
-        return $this->client;
+    public function getDetails(): array {
+        return $this->details;
+    }
+    public function setDetails(array $details): void {
+        $this->details = $details;
     }
 
-    public function getPaiement(): object
-    {
+    public function getClientId(): int {
+        return $this->clientId;
+    }
+    public function setClientId(int $clientId): void {
+        $this->clientId = $clientId;
+    }
+
+    public function getPaiement(): string {
         return $this->paiement;
     }
+    public function setPaiement(string $paiement): void {
+        $this->paiement = $paiement;
+    }
 
-    public function getStatut(): string
-    {
+    public function getStatut(): string {
         return $this->statut;
     }
-
-    public function validerCommande(): void
-    {
-        $this->statut = 'validée';
-        $this->paiement->effectuerPaiement(); // stratégie
-    }
-
-    public function getDateCommande(): string
-    {
-        return $this->dateCommande;
+    public function setStatut(string $statut): void {
+        $this->statut = $statut;
     }
 }
