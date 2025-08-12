@@ -14,7 +14,7 @@
     <div class="container mx-auto px-4 py-4 flex justify-between items-center">
       <h1 class="text-xl font-bold text-blue-600">Matériel</h1>
       <ul class="hidden md:flex space-x-6 text-gray-700">
-        <li><a href="client.html" class="hover:text-blue-600">profile</a></li>
+        <li><a id="profileLink" href="login.html" class="hover:text-blue-600">Profile</a></li>
       </ul>
     </div>
   </nav>
@@ -26,7 +26,10 @@
         <h1 class="text-3xl font-bold text-gray-800">Catalogue de matériel</h1>
         <p class="text-gray-600">Trouvez le matériel dont vous avez besoin</p>
       </div>
-      <button id="toggle-form-btn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center">
+      <button 
+        id="toggle-form-btn" 
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 flex items-center hidden"
+      >
         <i class="fas fa-plus mr-2"></i> Ajouter un matériel
       </button>
     </header>
@@ -180,6 +183,32 @@
         </div>
       </div>
     </div>
+
+    <div id="reservation-form" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+        <div class="bg-white p-6 rounded-lg w-full max-w-md">
+            <h3 class="text-xl font-semibold mb-4">Réservation de matériel</h3>
+            <form id="location-form">
+                <div class="mb-4">
+                    <label for="date_debut" class="block text-sm font-medium text-gray-700">Date de début</label>
+                    <input type="date" id="date_debut" name="date_debut" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+                <div class="mb-4">
+                    <label for="date_fin" class="block text-sm font-medium text-gray-700">Date de fin</label>
+                    <input type="date" id="date_fin" name="date_fin" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500" required>
+                </div>
+                <div class="mb-4 p-3 bg-gray-100 rounded">
+                    <p class="text-sm text-gray-700">Prix/jour: <span id="display-prix-jour">0</span>€</p>
+                    <p class="text-sm text-gray-700 mt-1">Durée: <span id="display-duree">0</span> jours</p>
+                    <p class="text-sm font-semibold mt-2">Total estimé: <span id="display-total">0</span>€</p>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancel-reservation" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">Annuler</button>
+                    <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">Confirmer</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
   <script>
     // Form popup controls

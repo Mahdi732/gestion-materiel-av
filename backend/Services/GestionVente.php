@@ -50,6 +50,10 @@ class GestionVente
         return true;
     }
 
+    public function changeStatu (int $commandeId, string $newStatus) : bool {
+        return $this->commandeRepo->changeStatus($commandeId, $newStatus);
+    }
+
     public function getCommandes(): array
     {
         return $this->commandeRepo->getAll();

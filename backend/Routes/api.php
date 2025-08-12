@@ -26,3 +26,10 @@ Router::get('/api/commande', [$services['commande'], 'index']);
 Router::post('/api/commande/user', [$services['commande'], 'userCommande']);
 Router::post('/api/commande', [$services['commande'], 'create']);
 Router::post('/api/commande/delete', [$services['commande'], 'delete']);
+Router::post('/api/commande/statu', [$services['commande'], 'updateStatus']);
+
+// location routing
+Router::get('/api/location', [$services['location'], 'getAll']);
+Router::post('/api/location/user', [$services['location'], 'getByClient']);
+Router::post('/api/location', [$services['location'], 'create']);
+Router::post('/api/location/statu', [$services['location'], 'updateStatus']);

@@ -50,6 +50,15 @@ class LocationRepository {
         return $stmt->execute(['id' => $locationId]);
     }
 
+    public function getLastInsertId(): ?int
+    {
+        $stmt = $this->db->query("SELECT MAX(id) AS last_id FROM locations");
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row && isset($row['last_id'])) {
+            return (int)$row['last_id'];
+        }
+        return null;
+    }
 
     public function createContract(int $locationId, float $remise, float $tarifTotal): bool {
         $stmt = $this->db->prepare("

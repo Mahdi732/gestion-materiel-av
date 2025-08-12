@@ -2,7 +2,47 @@ const container = document.getElementById('catalogue-section');
 const noDataMessage = document.getElementById('no-data-message');
 const isLogin = JSON.parse(localStorage.getItem('user'));
 
-// Form submission handler
+if (isLogin && isLogin.role_id === 1) {
+document.getElementById('toggle-form-btn').classList.remove('hidden');
+}
+
+
+  const profileLink = document.getElementById('profileLink');
+
+  if (isLogin && isLogin.id) {
+    let page = '#'; // default fallback
+
+    switch (isLogin.id) {
+      case 1:
+        page = 'admin.html';
+        break;
+      case 2:
+        page = 'client.html';
+        break;
+      case 3:
+        page = 'commercial.html';
+        break;
+      case 4:
+        page = 'technicien.html';
+        break;
+      default:
+        page = 'login.html'; // in case of unknown role
+    }
+
+    profileLink.setAttribute('href', page);
+  }
+
+// Reservation form elements
+const reservationForm = document.getElementById('reservation-form');
+const locationForm = document.getElementById('location-form');
+const cancelReservationBtn = document.getElementById('cancel-reservation');
+
+// Global variables for selected item
+let selectedMaterielId = '';
+let selectedMaterielNom = '';
+let selectedMaterielPrixJour = 0;
+
+// Form submission handler for creating new material (keep your existing code)
 document.getElementById('form-catalogue').addEventListener('submit', (e) => {
     e.preventDefault();
     const nom = document.getElementById('nom').value;
@@ -16,6 +56,27 @@ document.getElementById('form-catalogue').addEventListener('submit', (e) => {
     createCatalogue(nom, marque, modele, type_id, etat_id, disponible, caracteristiques);
 });
 
+// Updated Location form submission handler
+locationForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const dateDebut = document.getElementById('date_debut').value;
+    const dateFin = document.getElementById('date_fin').value;
+    const user = JSON.parse(localStorage.getItem('user'));
+    
+    if (!user || !user.id) {
+        alert('Vous devez être connecté pour effectuer une réservation');
+        return;
+    }
+
+    createLocation(selectedMaterielId, user.id, dateDebut, dateFin);
+});
+
+// Cancel reservation handler
+cancelReservationBtn.addEventListener('click', () => {
+    reservationForm.classList.add('hidden');
+});
+
+// Create material function (keep your existing code)
 function createCatalogue(nom, marque, modele, type_id, etat_id, disponible, caracteristiques) {
     axios.post('http://localhost/gestion-materiel/backend/api/materiels', {
         nom,
@@ -27,16 +88,50 @@ function createCatalogue(nom, marque, modele, type_id, etat_id, disponible, cara
         caracteristiques
     })
     .then(res => {
-        console.log(res.data);
         document.getElementById('form-overlay').classList.add('hidden');
         loadCatalogue();
     })
     .catch(err => {
-        console.error('error', err);
+        console.error('Error creating material:', err);
     });
 }
 
-// Load catalogue function
+// Updated Create location function
+function createLocation(materielId, clientId, dateDebut, dateFin) {
+    axios.post('http://localhost/gestion-materiel/backend/api/location', {
+        materiel_id: materielId,
+        client_id: clientId,
+        date_debut: dateDebut,
+        date_fin: dateFin
+    })
+    .then(res => {
+        const duration = calculateDurationDays(dateDebut, dateFin);
+        const totalPrice = selectedMaterielPrixJour * duration;
+        
+        alert(`Location créée avec succès!\nDu ${formatDate(dateDebut)} au ${formatDate(dateFin)}\nDurée: ${duration} jours\nTarif total: ${totalPrice}€`);
+        reservationForm.classList.add('hidden');
+        loadCatalogue();
+    })
+    .catch(err => {
+        console.error('Error creating location:', err.response?.data || err.message);
+        alert(err.response?.data?.error || 'Erreur lors de la création de la location');
+    });
+}
+
+// Helper function to calculate duration in days
+function calculateDurationDays(startDate, endDate) {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    return Math.round((end - start) / (1000 * 60 * 60 * 24));
+}
+
+// Helper function to format date
+function formatDate(dateString) {
+    const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+    return new Date(dateString).toLocaleDateString('fr-FR', options);
+}
+
+// Updated Load catalogue function to include price per day
 function loadCatalogue() {
     axios.get('http://localhost/gestion-materiel/backend/api/materiels')
     .then(res => {
@@ -65,13 +160,19 @@ function loadCatalogue() {
                         </div>
                         <p class="text-gray-600 text-sm mt-1">Réf: ${element.marque}</p>
                         <p class="text-gray-700 mt-2">${element.caracteristiques}</p>
+                        <p class="text-gray-700 mt-1">Prix/jour: ${element.prix_jour}€</p>
                         <div class="mt-4 flex justify-between items-center">
                             <span class="text-sm text-gray-500">Modele: ${element.modele}</span>
-                            <button class="reserver-btn text-blue-600 hover:text-blue-800 text-sm font-medium" 
+                            <button class="buy-btn text-blue-600 hover:text-blue-800 text-sm font-medium" 
                                     data-nom="${element.nom}" 
                                     data-caracteristiques="${element.caracteristiques}"
                                     data-id="${element.id}">
-                                Reserver
+                                buy
+                            </button>
+                            <button class="reserver-btn text-blue-600 hover:text-blue-800 text-sm font-medium"
+                                    data-id="${element.id}"
+                                    data-prix="${element.prix_jour}">
+                                reserver
                             </button>
                         </div>
                     </div>
@@ -86,7 +187,7 @@ function loadCatalogue() {
     });
 }
 
-// Delete function
+// Delete function (keep your existing code)
 function deleteCatalogue(id) {
     if (!confirm("Êtes-vous sûr de vouloir supprimer ce matériel ?")) return;
 
@@ -103,13 +204,27 @@ function deleteCatalogue(id) {
     });
 }
 
-// Reservation handling
-let selectedNom = '';
-let selectedCaracteristiques = '';
-let selectedId = '';
-
+// Updated Reservation handling
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains('reserver-btn')) {
+        e.preventDefault(); 
+        e.stopPropagation();
+        
+        selectedMaterielId = e.target.getAttribute('data-id');
+        selectedMaterielPrixJour = parseFloat(e.target.getAttribute('data-prix'));
+        
+        // Set default dates (today and tomorrow)
+        const today = new Date();
+        const tomorrow = new Date();
+        tomorrow.setDate(today.getDate() + 1);
+        
+        document.getElementById('date_debut').value = today.toISOString().split('T')[0];
+        document.getElementById('date_fin').value = tomorrow.toISOString().split('T')[0];
+        
+        reservationForm.classList.remove('hidden');
+    }
+    
+    if (e.target.classList.contains('buy-btn')) {
         e.preventDefault(); 
         e.stopPropagation();
         
@@ -123,6 +238,7 @@ document.addEventListener('click', function (e) {
     }
 });
 
+// Keep all your existing payment and form control handlers
 document.getElementById('cancel-popup').addEventListener('click', () => {
     document.getElementById('payment-popup').classList.add('hidden');
 });
@@ -155,12 +271,10 @@ function sendReservationToAPI(nom, caracteristiques, methodePaiement, materielId
         });
 }
 
-// Form popup controls
+// Form popup controls (keep your existing code)
 document.getElementById('toggle-form-btn').addEventListener('click', function(e) {
     e.preventDefault();
-    // Hide payment popup if open
     document.getElementById('payment-popup').classList.add('hidden');
-    // Show form popup
     document.getElementById('form-overlay').classList.remove('hidden');
 });
 

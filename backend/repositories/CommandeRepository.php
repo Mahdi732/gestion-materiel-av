@@ -16,7 +16,7 @@ class CommandeRepository implements ICommandeRepository {
 
     private function createCommandeFromRow(array $row): CommandeVente {
         $commande = new CommandeVente(
-            $row['details'],
+            json_decode($row['details'], true),
             (int)$row['client_id'],
             $row['paiement']
         );
@@ -37,7 +37,14 @@ class CommandeRepository implements ICommandeRepository {
 
         $commandes = [];
         foreach ($rows as $row) {
-            $commandes[] = $this->createCommandeFromRow($row);
+            $commande = $this->createCommandeFromRow($row);
+            $commandes[] = [
+            'id'       => $commande->getId(),
+            'details'  => $commande->getDetails(),
+            'clientId' => $commande->getClientId(),
+            'paiement' => $commande->getPaiement(),
+            'statut'   => $commande->getStatut()
+        ];
         }
 
         return $commandes;

@@ -94,4 +94,8 @@ abstract class MaterielBase implements IMateriel
     public function disponibilite(): bool{
         return $this->disponible;
     }
+
+    public function getPrixJour () : float {
+        return (float)$this->caracteristiques / 20;
+    }
 }

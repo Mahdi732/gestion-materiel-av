@@ -123,5 +123,28 @@ class VenteController
             echo json_encode(['error' => 'Échec de la suppression']);
         }
     }
+
+    public function updateStatus(): void
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
+
+        $data = json_decode(file_get_contents("php://input"), true);
+
+        if (!isset($data['command_id'], $data['statut'])) {
+            http_response_code(400);
+            echo json_encode(['error' => 'Données manquantes']);
+            return;
+        }
+
+        $success = $this->gestionVente->changeStatu((int)$data['command_id'], $data['statut']);
+
+        if ($success) {
+            echo json_encode(['message' => 'Statut mis à jour']);
+        } else {
+            http_response_code(500);
+            echo json_encode(['error' => 'Échec mise à jour statut']);
+        }
+    }
 }
 

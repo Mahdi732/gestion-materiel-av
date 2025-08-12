@@ -33,6 +33,11 @@ class ContratLocationService
         return $this->locationRepo->getAll();
     }
 
+    public function getLastLocationId(): ?int
+    {
+        return $this->locationRepo->getLastInsertId();
+    }
+
     public function getLocationsByClient(int $clientId): ?array
     {
         return $this->locationRepo->getUserReservations($clientId);

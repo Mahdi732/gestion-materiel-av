@@ -19,6 +19,10 @@ class GestionCatalogueService
         return $this->materielRepo->getAll();
     }
 
+    public function changerDisponibilite (int $id, bool $disponible) : bool {
+        return $this->materielRepo->changerDisponibilite($id, $disponible);
+    }
+
     public function getMaterielById(int $id): ?MaterielBase
     {
         return $this->materielRepo->findById($id);
